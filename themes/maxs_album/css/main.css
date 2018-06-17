@@ -1,0 +1,295 @@
+/*
+* Hiteule Gallery
+* Par Hiteule Créative - http://hiteulegallery.hiteule-creative.fr
+*
+* Cette application est libre et livrée sous licence Creative Commons
+* Paternité-Partage des Conditions Initiales à l'Identique 3.0 Unported
+* http://creativecommons.org/licenses/by-sa/3.0/deed.fr
+*
+* This software is free and distributed with the term of Creative Commons licence
+* Attribution-Share Alike 3.0 Unported
+* http://creativecommons.org/licenses/by-sa/3.0/deed.en
+*/
+
+html{
+width:100%;
+height:100%;
+font-family:Verdana, serif;
+font-size:14px;
+color:#3e3e40;
+background-color:#FFFFFF;
+margin:0px;
+}
+body{
+width:100%;
+height:100%;
+margin:0 auto;
+padding:0;
+}
+form{
+margin:0;
+}
+input, textarea, select{
+color:#000000;
+background-color:rgb(252,252,252);
+border:1px solid rgb(160,160,160);
+}
+a{
+color:#000000;
+text-decoration:none;
+}
+#header{
+width:100%;
+height:80px;
+text-align:center;
+border-bottom:4px solid #d1d1d1;
+margin-bottom:20px;
+}
+#header img{
+border:none;
+}
+#menu{
+float:left;
+width:160px;
+height:auto;
+padding:5px;
+border:1px solid #e4e6e1;
+background:#f1f1f1;
+margin:0 0 0 20px;
+}
+#menu a{
+color:#3e3e40;
+font-size:10px;
+text-transform:uppercase;
+text-decoration:none;
+}
+#content{
+margin:0 20px 0 210px;
+padding:0 0 10px 0;
+background-color:#f1f1f1;
+border:1px #e4e6e1 solid;
+}
+#footer{
+width:100%;
+height:167px;
+margin-top:10px;
+font-size:10px;
+background: url(../img/footer_background.png) repeat-x;
+color:#fff;
+}
+#footer .left{
+padding: 135px 0 0 5px;
+}
+#footer .right{
+float:right;
+width:343px;
+height:35px;
+margin:130px 10px 0 0;
+background: url(../img/footer_phrase.png) no-repeat;
+}
+#footer a{
+color:#fff;
+text-decoration:none;
+}
+.navbar{
+height:20px;
+margin:1px 1px 15px 1px;
+padding:3px 0 0 5px;
+background-color:#f288ae;
+color:#000;
+}
+.navbar a{
+color:#000;
+text-decoration:none;
+}
+.navbar table{
+width:99%;
+border-collapse:collapse;
+}
+.navbar table .right{
+text-align:right;
+}
+#table_center .submit{
+text-align:center;
+}
+#cat0, #table_center{
+margin:0 auto;
+}
+#cat0 td{
+vertical-align:top;
+}
+#cat0 img{
+border:4px #ffffff solid;
+}
+#cat0 img:hover{
+border:4px #3e3e40 solid;
+}
+.cat1{
+width:350px;
+border:1px #e4e6e1 solid;
+}
+.cat1 .title{
+background-color:#ed71a0;
+font-weight:bold;
+color:#ffffff;
+padding:0 0 0 5px;
+}
+.cat1 .title a{
+color:#ffffff;
+text-decoration:none;
+}
+.cat1 .description{
+vertical-align:top;
+}
+.cat1 .nb_img_souscat{
+font-size:10px;
+}
+#img0{
+margin:0 auto;
+}
+#img0 img{
+border:4px #ffffff solid;
+}
+#img0 .img1{
+border-collapse:collapse;
+border:1px solid #e4e6e1;
+}
+#img0 .img1 .img{
+width:144px;
+height:144px;
+text-align:center;
+vertical-align:middle;
+}
+#img0 .img1 .img img:hover{
+border:4px #3e3e40 solid;
+}
+#img0 .img1 .name{
+text-align:center;
+vertical-align:top;
+font-size:10px;
+}
+#img0 .img1 .name a{
+color:#3e3e40;
+text-decoration:none;
+}
+#page{
+width:97%;
+margin:0 auto;
+border-collapse:collapse;
+}
+#page a{
+color:#3e3e40;
+text-decoration:none;
+}
+#page .back{
+width:150px;
+text-align:left;
+}
+#page .next{
+width:150px;
+text-align:right;
+}
+#page .roll{
+text-align:center;
+}
+#page .roll .cur{
+font-weight: bold;
+margin:0 2px;
+}
+#page .roll .no_cur{
+margin:0 2px;
+}
+.center{
+width:100%;
+text-align:center;
+}
+.center img{
+border:4px #ffffff solid;
+}
+.center img:hover{
+border:4px #3e3e40 solid;
+}
+#description{
+width:100%;
+margin:10px 0 30px 0;
+}
+#description img{
+border:4px #ffffff solid;
+}
+#description img:hover{
+border:4px #3e3e40 solid;
+}
+#description td{
+text-align:center;
+}
+#description .back{
+width:140px;
+vertical-align:middle;
+}
+#description .next{
+width:140px;
+text-align:right;
+vertical-align:middle;
+}
+.comment_title{
+margin:0 0 0 1%;
+font-weight:bold;
+}
+.comment{
+width:98%;
+margin:0 auto;
+padding:3px;
+border-top:3px solid #f288ae;
+border-bottom:1px solid #3e3e40;
+background-color:#ffffff;
+}
+.comment fieldset{
+margin:10px 0;
+}
+.comment legend{
+font-size:10px;
+}
+#last_comm{
+width:80%;
+margin:0 auto;
+}
+#last_comm .td_img{
+width:128px;
+vertical-align:top;
+text-align:center;
+}
+#last_comm .td_img img{
+border:4px #ffffff solid;
+}
+#last_comm .td_img img:hover{
+border:4px #3e3e40 solid;
+}
+#last_comm .td_comm{
+width:100%;
+vertical-align:top;
+}
+#last_comm img{
+border:1px #e4e6e1 solid;
+}
+#last_comm img:hover{
+border:1px #3e3e40 solid;
+}
+#last_comm legend{
+font-size:10px;
+}
+#field0{
+width:400px;
+margin:0 10px 0 0;
+}
+#field0 .submit{
+padding:35px 0 0 0;
+text-align:center;
+}
+#field1{
+width:400px;
+margin:0 0 0 10px;
+}
+#field1 .submit{
+padding:10px 0 0 0;
+text-align:center;
+}
