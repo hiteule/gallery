@@ -16,13 +16,13 @@ if(!isset($user) || $user->connect()==FALSE || $user->info['admin']!=1) exit(0);
 
 $tpl= new template('about.tpl');
 
-$data=$sql->query('SELECT count(*) AS nb_img FROM hg3_img', TRUE);
-$data2=$sql->query('SELECT count(*) AS nb_cat FROM hg3_cat', TRUE);
-$data3=$sql->query('SELECT count(*) AS nb_comm FROM hg3_comment', TRUE);
-$data4=$sql->query('SELECT count(*) AS nb_user FROM hg3_user', TRUE);
+$data=$sql->fetch('SELECT count(*) AS nb_img FROM hg3_img');
+$data2=$sql->fetch('SELECT count(*) AS nb_cat FROM hg3_cat');
+$data3=$sql->fetch('SELECT count(*) AS nb_comm FROM hg3_comment');
+$data4=$sql->fetch('SELECT count(*) AS nb_user FROM hg3_user');
 
 $version_php_arr=explode('-', phpversion());
-$version_mysql_arr=explode('-', mysql_get_server_info());
+$version_mysql_arr=explode('-', $sql->get_attribute(PDO::ATTR_SERVER_VERSION));
 
 $tpl->parse(array(
   'nb_img'=>$data['nb_img'],

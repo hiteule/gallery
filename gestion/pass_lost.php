@@ -26,7 +26,7 @@ if(isset($login, $mail, $code, $_SESSION['code']) && !empty($_SESSION['code'])){
     exit(0);
   }
   
-  $data=$sql->query('SELECT id, login, mail FROM hg3_user WHERE login="'.addslashes($login).'" AND mail="'.addslashes($mail).'"', TRUE);
+  $data=$sql->fetch('SELECT id, login, mail FROM hg3_user WHERE login="'.addslashes($login).'" AND mail="'.addslashes($mail).'"');
   
   if(empty($data['id'])){
     echo '<meta http-equiv="Refresh" content="0; URL=./?p=error&amp;id=13">';

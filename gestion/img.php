@@ -17,7 +17,7 @@ if(!isset($id) || empty($id)){
   exit(0);
 }
 
-$data=$sql->query('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.name, hg3_img.file, hg3_img.nb_view, hg3_img.date_add, hg3_cat.id, hg3_cat.nb_img, hg3_cat.link, hg3_cat.sort FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat WHERE hg3_img.id='.intval($id), TRUE);
+$data=$sql->fetch('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.name, hg3_img.file, hg3_img.nb_view, hg3_img.date_add, hg3_cat.id, hg3_cat.nb_img, hg3_cat.link, hg3_cat.sort FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat WHERE hg3_img.id='.intval($id));
 
 if(!isset($data['id_img']) || empty($data['id_img'])){
   echo '<meta http-equiv="Refresh" content="0; URL=./?p=error&amp;id=6">';
@@ -30,7 +30,7 @@ if(isset($comment) && $config['comm_open']==1 && (($user->connect()==TRUE) || ($
     if($user->connect()==TRUE) $name=$user->info['login'];
     else{
       $name=addslashes($name);
-      $data5=$sql->query('SELECT login FROM hg3_user WHERE login="'.$name.'"', TRUE);
+      $data5=$sql->fetch('SELECT login FROM hg3_user WHERE login="'.$name.'"');
       
       if(!empty($data5['login'])){
         echo '<meta http-equiv="Refresh" content="0; URL=./?p=error&amp;id=11">';
@@ -38,7 +38,7 @@ if(isset($comment) && $config['comm_open']==1 && (($user->connect()==TRUE) || ($
       }
     }
 
-    $data4=$sql->query('SELECT id, id_img, comment FROM hg3_comment WHERE id_img='.$data['id_img'].' ORDER BY id DESC LIMIT 0, 1', TRUE);
+    $data4=$sql->fetch('SELECT id, id_img, comment FROM hg3_comment WHERE id_img='.$data['id_img'].' ORDER BY id DESC LIMIT 0, 1');
     if(strcmp(stripslashes($data4['comment']), $comment)!=0) $sql->query('INSERT INTO hg3_comment VALUES("", '.$data['id_img'].', '.time(NULL).', "'.$name.'", "'.addslashes($comment).'")');
   }
   else{ // Champs NOK
@@ -65,7 +65,7 @@ foreach($parent_cat_arr as $k=>$v){
 }
 
 if($num_img>1){
-  $data2=$sql->query('SELECT id, file, name FROM hg3_img WHERE id='.$sort_arr[($num_img-2)], TRUE);
+  $data2=$sql->fetch('SELECT id, file, name FROM hg3_img WHERE id='.$sort_arr[($num_img-2)]);
   
   $tn_link=(isset($data['link']) && !empty($data['link']) && is_file('./gallery/'.$data['link'].'/TN/TN-'.$data2['file'])) ? './gallery/'.$data['link'].'/TN/TN-'.$data2['file'] : './themes/'.$config['theme'].'/'.$config_theme['no_tn'];
 
@@ -77,7 +77,7 @@ if($num_img>1){
 else $tpl->parse(NULL, 'IMG_BACK_NOK');
 
 if($num_img<$data['nb_img']){
-  $data3=$sql->query('SELECT id, file, name FROM hg3_img WHERE id='.$sort_arr[$num_img], TRUE);
+  $data3=$sql->fetch('SELECT id, file, name FROM hg3_img WHERE id='.$sort_arr[$num_img]);
   
   $tn_link=(isset($data['link']) && !empty($data['link']) && is_file('./gallery/'.$data['link'].'/TN/TN-'.$data3['file'])) ? './gallery/'.$data['link'].'/TN/TN-'.$data3['file'] : './themes/'.$config['theme'].'/'.$config_theme['no_tn'];
   
@@ -103,8 +103,10 @@ $tpl->parse(array(
   'nb_view'=>($data['nb_view']+1),
   ));
 
-$req2=$sql->query('SELECT id, id_img, date, name, comment FROM hg3_comment WHERE id_img='.$data['id_img'].' ORDER BY date');
-while($data2=mysql_fetch_array($req2)) $comm_arr[]=$data2;
+$req2=$sql->fetchAll('SELECT id, id_img, date, name, comment FROM hg3_comment WHERE id_img='.$data['id_img'].' ORDER BY date');
+foreach ($req2 as $data2) {
+  $comm_arr[]=$data2;
+}
 
 if(isset($comm_arr) && count($comm_arr)>0){ // Commentaire
   foreach($comm_arr as $k=>$v){

@@ -114,9 +114,6 @@ echo $tpl->out();
 // Affectation du pluriel ou du singulié en fonction du nombre de requête SQL
 $lang_query=($sql->nbr_queries>1) ? $lang['QUERYS'] : $lang['QUERY'];
 
-// On ferme la connexion MySQL
-$sql->close();
-
 $tpl=new template('footer.tpl');
 $tpl->parse(array(
   'nbquery'=>$sql->nbr_queries,

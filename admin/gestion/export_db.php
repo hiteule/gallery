@@ -60,8 +60,6 @@ else{
     }
   }
   
-  $sql->close();
-
   header("Content-type: text/sql");
   header("Content-disposition: attachment; filename=".$sql->db."-".date('d_m_Y').".sql");
   echo $backup;

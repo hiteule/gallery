@@ -60,8 +60,10 @@ if(isset($open, $language_new, $title, $description, $cat_per_line, $img_per_lin
   if(strcmp($config['sort_img'], $sort_img)!=0){
     $config['sort_img']=$sort_img;
     
-    $req=$sql->query('SELECT id FROM hg3_cat');
-    while($data=mysql_fetch_array($req)) maj_cat($data['id']);
+    $req=$sql->fetchAll('SELECT id FROM hg3_cat');
+    foreach ($req as $data) {
+      maj_cat($data['id']);
+    }
   }
   
   maj_conf($config);

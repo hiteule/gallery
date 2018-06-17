@@ -27,12 +27,12 @@ $l0=($page==1) ? 0 : ($config['number_last_comm'])*($page-1);
 $l1=($config['number_last_comm']);
 
 $i=0;
-$req=$sql->query('SELECT hg3_comment.id AS id_comm, hg3_comment.id_img, hg3_comment.date, hg3_comment.name AS name_comm, hg3_comment.comment, hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.name AS name_img, hg3_img.file, hg3_cat.id, hg3_cat.link
+$req=$sql->fetchAll('SELECT hg3_comment.id AS id_comm, hg3_comment.id_img, hg3_comment.date, hg3_comment.name AS name_comm, hg3_comment.comment, hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.name AS name_img, hg3_img.file, hg3_cat.id, hg3_cat.link
   FROM hg3_comment
   LEFT JOIN hg3_img ON hg3_img.id=hg3_comment.id_img
   LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat
   '.$date.' ORDER BY '.$sort.' '.$order.' LIMIT '.$l0.', '.$l1);
-while($data=mysql_fetch_array($req)){
+foreach ($req as $data) {
   $tn_link=(isset($data['link']) && !empty($data['link']) && is_file('./gallery/'.$data['link'].'/TN/TN-'.$data['file'])) ? './gallery/'.$data['link'].'/TN/TN-'.$data['file'] : './themes/'.$config['theme'].'/'.$config_theme['no_tn'];
 
   $tpl->parse(array(
@@ -46,7 +46,7 @@ while($data=mysql_fetch_array($req)){
   $i++;
 }
 
-$data2=$sql->query('SELECT count(hg3_comment.id) AS id_comm, hg3_comment.id_img, hg3_comment.date, hg3_comment.name AS name_comm, hg3_comment.comment, hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.name AS name_img, hg3_img.file, hg3_cat.id, hg3_cat.link
+$data2=$sql->fetch('SELECT count(hg3_comment.id) AS id_comm, hg3_comment.id_img, hg3_comment.date, hg3_comment.name AS name_comm, hg3_comment.comment, hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.name AS name_img, hg3_img.file, hg3_cat.id, hg3_cat.link
   FROM hg3_comment
   LEFT JOIN hg3_img ON hg3_img.id=hg3_comment.id
   LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat

@@ -33,7 +33,7 @@ $sql=new mysql(DBHOST, DBNAME, DBUSER, DBPASSWORD);
 // On spécifie qu'on bosse en utf8
 $sql->query("SET NAMES 'utf8'");
 
-$data=$sql->query('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.file, hg3_cat.id AS id_cat, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_img.id_cat=hg3_cat.id WHERE hg3_img.id='.intval($_GET['id']), TRUE);
+$data=$sql->fetch('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.file, hg3_cat.id AS id_cat, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_img.id_cat=hg3_cat.id WHERE hg3_img.id='.intval($_GET['id']));
 
 $dest_link='../gallery/'.$data['link'].'/'.$data['file'];
 $dest_exp = explode('.', $dest_link);
@@ -76,7 +76,4 @@ imagecopymerge($dest, $src, $x_dest, $y_dest, 0, 0, $width_src, $height_src, 70)
 if(in_array($dest_ext, $jpeg_arr)) imagejpeg($dest);
 elseif($dest_ext=='gif') imagegif($dest);
 else imagepng($dest);
-
-// On ferme la connexion MySQL
-$sql->close();
 ?>

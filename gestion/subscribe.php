@@ -35,7 +35,7 @@ if(isset($login, $passwd, $passwd_confirm, $mail, $code, $_SESSION['code']) && !
     exit(0);
   }
   
-  $data=$sql->query('SELECT login FROM hg3_user WHERE login="'.addslashes($login).'"', TRUE);
+  $data=$sql->fetch('SELECT login FROM hg3_user WHERE login="'.addslashes($login).'"');
   
   if(!empty($data['login'])){
     echo '<meta http-equiv="Refresh" content="0; URL=./?p=error&amp;id=11">';
