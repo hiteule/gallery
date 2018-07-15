@@ -13,66 +13,50 @@
 */
 
 class mysql{
-  var $nbr_queries=0;
-  var $connect=FALSE;
-  var $db='';
+  public $nbr_queries=0;
+
+  private $pdo;
   
   function mysql($host, $db, $user, $pass){ // Constructeur où on se connecte
-    if(($this->connect=@mysql_connect($host, $user, $pass)) != FALSE){ // On se connect
-      if(@mysql_select_db($db)!=FALSE){ // On attache la BDD
-        $this->db=$db;
-        return TRUE;
-      }
-      else{
-        mysql_close($this->connect);
-        die('FATAL ERROR : Database connection fail.');
-      }
+
+    try {
+      $this->pdo = new PDO(sprintf('mysql:host=%s;dbname=%s', $host, $db), $user, $pass);
+    } catch (PDOException $e) {
+      die('FATAL ERROR : DB connection fail.');
     }
-    else die('FATAL ERROR : Server database connection fail.');
   }
   
-  function close(){ // Deconnexion du serveur
-    if($this->connect!=FALSE) return mysql_close($this->connect);
-    else return FALSE;
+  function query($query){ // Execution d'une requête
+    $st = $this->pdo->prepare($query);
+    $st->execute();
+
+    $this->nbr_queries++;
+
+    return $st;
   }
-  
-  function query($query, $fetch_array=FALSE){ // Execution d'une requête
-    $this->query=$query;
-    if(!empty($this->query) && $this->connect!=FALSE){
-      $this->result=mysql_query($this->query,$this->connect);
-      $this->nbr_queries++;
-      $this->error=($this->result==FALSE) ? TRUE : FALSE;
-      if($fetch_array && !$this->error){
-        $this->result=mysql_fetch_array($this->result);
-        $this->error=($this->result===FALSE) ? TRUE : FALSE;
-      }
-      $this->result=($this->error) ? $this->query."\n".mysql_errno($this->connect).' : '.mysql_error($this->connect) : $this->result;
-      if ($this->error) return $this->error;
-      return $this->result;
-    }
-    $this->error=TRUE;
-    $this->result='ERREUR FATALE : La requête SQL est vide.';
-    die($this->result);
+
+  function fetch($query){
+    $st = $this->query($query);
+
+    return $st->fetch();
+  }
+
+  function fetchAll($query){
+    $st = $this->query($query);
+
+    return $st->fetchAll();
   }
   
   function last_id(){ // Renvoi le dernier id incrémenté
-    return mysql_insert_id($this->connect);
+    return $this->pdo->lastInsertId();
   }
   
   function optimize(){ // Optimisations des tables
-    $table=mysql_list_tables($this->db);
-    $req2='OPTIMIZE TABLE';
+    return TRUE;
+  }
 
-    $req=$this->query('SHOW TABLE STATUS');
-    while($data=mysql_fetch_assoc($req)){
-      if($data['Data_free']>0){
-        $req2.=' `'.$data['Name'].'`,';
-      }
-    }
-
-    $req2=substr($req2, 0, (strlen($req2)-1));
-    if($this->query($req2)==TRUE) return TRUE;
-    else return FALSE;
+  function get_attribute($attr) {
+    return $this->pdo->getAttribute($attr);
   }
 }
 ?>

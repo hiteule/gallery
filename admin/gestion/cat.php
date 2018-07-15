@@ -28,7 +28,7 @@ if(isset($id_edit, $name, $description) && !empty($id_edit)){
 
 // Suppression d'une catégorie
 if(isset($del) && !empty($del)){
-  $data3=$sql->query('SELECT id, id_cat, nb_img, nb_souscat, link FROM hg3_cat WHERE id='.intval($del), TRUE);
+  $data3=$sql->fetch('SELECT id, id_cat, nb_img, nb_souscat, link FROM hg3_cat WHERE id='.intval($del));
   $link=substr($data3['link'], 0, -(strlen(end(explode('/', $data3['link'])))+1));
   
   if($data3['nb_img']>0){
@@ -47,7 +47,7 @@ if(isset($del) && !empty($del)){
 
 // Form
 if(isset($id) && !empty($id)){
-  $data2=$sql->query('SELECT id, name, description FROM hg3_cat WHERE id='.intval($id), TRUE);
+  $data2=$sql->fetch('SELECT id, name, description FROM hg3_cat WHERE id='.intval($id));
   
   $tpl->parse(array(
     'id'=>$data2['id'],
@@ -56,8 +56,8 @@ if(isset($id) && !empty($id)){
 }
 // Liste
 else{
-  $req=$sql->query('SELECT id, id_cat, nb_img, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
-  while($data=mysql_fetch_array($req)){
+  $req=$sql->fetchAll('SELECT id, id_cat, nb_img, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
+  foreach ($req as $data) {
     $cat_arr[$my]['id']=$data['id'];
     $cat_arr[$my]['name']=$data['name'];
     $cat_arr[$my]['niv']=0;

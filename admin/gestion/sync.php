@@ -47,11 +47,15 @@ if(isset($sync)){
   function sync_get_db(){
     global $cat_db_arr, $img_db_arr, $sql;
 
-    $req=$sql->query('SELECT link FROM hg3_cat');
-    while($data=mysql_fetch_array($req)) $cat_db_arr[]=$data['link'];
+    $req=$sql->fetchAll('SELECT link FROM hg3_cat');
+    foreach ($req as $data) {
+      $cat_db_arr[]=$data['link'];
+    }
 
-    $req2=$sql->query('SELECT hg3_img.id_cat, hg3_img.file, hg3_cat.id, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat');
-    while($data2=mysql_fetch_array($req2)) $img_db_arr[]=$data2['link'].'/'.$data2['file'];
+    $req2=$sql->fetchAll('SELECT hg3_img.id_cat, hg3_img.file, hg3_cat.id, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat');
+    foreach ($req2 as $data2) {
+      $img_db_arr[]=$data2['link'].'/'.$data2['file'];
+    }
   }
 
   sync_get_dir();
@@ -120,7 +124,7 @@ if(isset($sync)){
   }
 
   foreach($cat_maj_arr as $k=>$v){
-    $data3=$sql->query('SELECT id, link FROM hg3_cat WHERE link="'.$v.'"', TRUE);
+    $data3=$sql->fetch('SELECT id, link FROM hg3_cat WHERE link="'.$v.'"');
     maj_cat($data3['id'], $v);
   }
   

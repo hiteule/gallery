@@ -29,7 +29,7 @@ class user{
     
     // Instanciation de la classe MySQL et connection à la bdd
     $this->sql=new mysql(DBHOST, DBNAME, DBUSER, DBPASSWORD);
-    $data=$this->sql->query('SELECT id, login, pass, hash, ban FROM hg3_user WHERE login="'.$login.'"', TRUE);
+    $data=$this->sql->fetch('SELECT id, login, pass, hash, ban FROM hg3_user WHERE login="'.addslashes($login).'"');
     
     if(empty($data['login'])) return -2; // l'utilisateur n'éxiste pas
     if($data['pass']!=md5($pass)) return -3; // Mot de passe incorect
@@ -59,14 +59,14 @@ class user{
   function connect(){ // Renvoi l'état de la connexion
     if(isset($_COOKIE['hg3_userid']) && isset($_COOKIE['hg3_hash']) && !empty($_COOKIE['hg3_userid']) && !empty($_COOKIE['hg3_hash'])){
       $this->sql=new mysql(DBHOST, DBNAME, DBUSER, DBPASSWORD);
-      $data=$this->sql->query('SELECT id, hash FROM hg3_user WHERE id='.$_COOKIE['hg3_userid'], TRUE);
+      $data=$this->sql->fetch('SELECT id, hash FROM hg3_user WHERE id='.$_COOKIE['hg3_userid']);
       
       if($data['hash']==$_COOKIE['hg3_hash']) return $_COOKIE['hg3_userid'];
       else return FALSE;
     }
     elseif(isset($_SESSION['hg3_userid']) && !empty($_SESSION['hg3_userid']) && isset($_SESSION['hg3_hash']) && !empty($_SESSION['hg3_hash'])){
       $this->sql=new mysql(DBHOST, DBNAME, DBUSER, DBPASSWORD);
-      $data=$this->sql->query('SELECT id, hash FROM hg3_user WHERE id='.$_SESSION['hg3_userid'], TRUE);
+      $data=$this->sql->fetch('SELECT id, hash FROM hg3_user WHERE id='.$_SESSION['hg3_userid']);
       
       if($data['hash']==$_SESSION['hg3_hash']) return $_SESSION['hg3_userid'];
       else return FALSE;
@@ -78,9 +78,9 @@ class user{
     if($this->connect()!=FALSE){
       $this->sql=new mysql(DBHOST, DBNAME, DBUSER, DBPASSWORD);
       
-      $req=$this->sql->query('SELECT * FROM hg3_user WHERE id='.$this->connect());
+      $req=$this->sql->fetch('SELECT * FROM hg3_user WHERE id='.$this->connect());
       
-      $this->info=mysql_fetch_array($req);
+      $this->info=$req;
       $this->info=array_map("stripslashes", $this->info);
       
       return TRUE;

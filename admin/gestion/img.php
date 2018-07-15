@@ -23,9 +23,9 @@ if(isset($_POST['img_name']) && !empty($_POST['img_name']) && is_array($_POST['i
 // Transferts d'images
 if(isset($_POST['img_check'], $transfert_del, $transfert_cat, $cur_cat) && !empty($_POST['img_check']) && !empty($transfert_del) && !empty($transfert_cat) && $transfert_del=='transfert' && $transfert_cat!='none' && !empty($cur_cat) && is_array($_POST['img_check'])){
   foreach($_POST['img_check'] as $k=>$v){
-    $data4=$sql->query('SELECT hg3_img.id AS id_img, hg3_img.file, cat_old.id AS id_old, cat_old.link AS link_old, cat_new.id AS id_new, cat_new.link AS link_new
+    $data4=$sql->fetch('SELECT hg3_img.id AS id_img, hg3_img.file, cat_old.id AS id_old, cat_old.link AS link_old, cat_new.id AS id_new, cat_new.link AS link_new
       FROM hg3_cat AS cat_old LEFT JOIN hg3_cat AS cat_new ON cat_new.id='.intval($transfert_cat).' LEFT JOIN hg3_img ON hg3_img.id='.intval($k).'
-      WHERE cat_old.id='.intval($cur_cat), TRUE);
+      WHERE cat_old.id='.intval($cur_cat));
 
     rename('../gallery/'.$data4['link_old'].'/'.$data4['file'], '../gallery/'.$data4['link_new'].'/'.$data4['file']);
     if(!is_dir('../gallery/'.$data4['link_new'].'/TN')) mkdir('../gallery/'.$data4['link_new'].'/TN', 0700);
@@ -38,7 +38,7 @@ if(isset($_POST['img_check'], $transfert_del, $transfert_cat, $cur_cat) && !empt
 // Suppression d'images
 if(isset($_POST['img_check'], $transfert_del, $cur_cat) && !empty($_POST['img_check']) && !empty($transfert_del) && $transfert_del=='del' && !empty($cur_cat) && is_array($_POST['img_check'])){
   foreach($_POST['img_check'] as $k=>$v){
-    $data5=$sql->query('SELECT hg3_img.id AS id_img, hg3_img.id_cat AS id_cat, hg3_img.file, hg3_cat.id, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_img.id_cat=hg3_cat.id WHERE hg3_img.id='.intval($k), TRUE);
+    $data5=$sql->fetch('SELECT hg3_img.id AS id_img, hg3_img.id_cat AS id_cat, hg3_img.file, hg3_cat.id, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_img.id_cat=hg3_cat.id WHERE hg3_img.id='.intval($k));
 
     unlink('../gallery/'.$data5['link'].'/'.$data5['file']);
     if(is_file('../gallery/'.$data5['link'].'/TN/TN-'.$data5['file'])) unlink('../gallery/'.$data5['link'].'/TN/TN-'.$data5['file']);
@@ -52,8 +52,8 @@ $tpl=new template('img.tpl');
 
 if(isset($id) && !empty($id)){
   $i=0;
-  $req2=$sql->query('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.file, hg3_img.name, hg3_cat.id AS id_cat, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat WHERE hg3_img.id_cat='.intval($id));
-  while($data2=mysql_fetch_array($req2)){
+  $req2=$sql->fetchAll('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.file, hg3_img.name, hg3_cat.id AS id_cat, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat WHERE hg3_img.id_cat='.intval($id));
+  foreach ($req2 as $data2) {
     $i++;
     $tn_url=(is_file('../gallery/'.$data2['link'].'/TN/TN-'.$data2['file'])) ? '../gallery/'.$data2['link'].'/TN/TN-'.$data2['file'] : './themes/'.$config_theme['theme'].'/'.$config_theme['no_tn'];
   
@@ -72,8 +72,8 @@ if(isset($id) && !empty($id)){
     for($j=$i; $j<IMG_PER_LINE; $j++) $tpl->parse(NULL, 'FORM.IMG_EMPTY');
   }
   
-  $req3=$sql->query('SELECT id, id_cat, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
-  while($data3=mysql_fetch_array($req3)){
+  $req3=$sql->fetchAll('SELECT id, id_cat, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
+  foreach ($req3 as $data3) {
     $cat_arr[$my]['id']=$data3['id'];
     $cat_arr[$my]['name']=$data3['name'];
     $cat_arr[$my]['niv']=0;
@@ -96,8 +96,8 @@ if(isset($id) && !empty($id)){
     'id_cat'=>intval($id)), 'FORM');
 }
 else{
-  $req=$sql->query('SELECT id, id_cat, nb_img, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
-  while($data=mysql_fetch_array($req)){
+  $req=$sql->fetchAll('SELECT id, id_cat, nb_img, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
+  foreach ($req as $data) {
     $cat_arr[$my]['id']=$data['id'];
     $cat_arr[$my]['name']=$data['name'];
     $cat_arr[$my]['niv']=0;

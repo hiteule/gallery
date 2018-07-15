@@ -40,7 +40,7 @@ function exec_time($time_start, $time_end){
 function parent_cat($id, $sql){
   $parent_cat_arr=array();
   while($id>0){
-    $data4=$sql->query('SELECT id, id_cat, name FROM hg3_cat WHERE id='.$id, TRUE);
+    $data4=$sql->fetch('SELECT id, id_cat, name FROM hg3_cat WHERE id='.$id);
     $parent_cat_arr[$data4['id']]=stripslashes($data4['name']);
     $id=$data4['id_cat'];
   }
@@ -93,6 +93,7 @@ function send_mail($mail_addr, $subject, $message_html, $message_txt=FALSE){
   if(mail($mail_addr, $subject, $message, $headers)) return TRUE;
   else return FALSE;
 }
+
 function have_to_view_login(){
   if(!defined('VIEW_PASSWORD') || 0===strcmp('', VIEW_PASSWORD)){
     return false;

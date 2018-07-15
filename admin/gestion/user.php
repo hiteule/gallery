@@ -23,7 +23,7 @@ if(isset($id_edit, $login, $mailaddr, $statut) && !empty($id_edit) && ($statut==
     exit(0);
   }
   
-  $data3=$sql->query('SELECT id, login FROM hg3_user WHERE login="'.addslashes($login).'" AND id!='.intval($id_edit), TRUE);
+  $data3=$sql->fetch('SELECT id, login FROM hg3_user WHERE login="'.addslashes($login).'" AND id!='.intval($id_edit));
   if(!empty($data3['id'])){
     echo '<meta http-equiv="Refresh" content="0; URL=./?p=error&amp;id=7">';
     exit(0);
@@ -57,7 +57,7 @@ if(isset($id_edit, $pass0, $pass1) && !empty($id_edit)){
 
 // Formulaire
 if(isset($id) && !empty($id)){
-  $data2=$sql->query('SELECT id, login, mail, ban, admin FROM hg3_user WHERE id='.intval($id), TRUE);
+  $data2=$sql->fetch('SELECT id, login, mail, ban, admin FROM hg3_user WHERE id='.intval($id));
   
   $selected_user=($data2['ban']!=1 && $data2['admin']!=1) ? 'selected="selected"' : '';
   $selected_admin=($data2['ban']!=1 && $data2['admin']==1) ? 'selected="selected"' : '';
@@ -73,8 +73,8 @@ if(isset($id) && !empty($id)){
 }
 // Liste
 else{
-  $req=$sql->query('SELECT id, login, ban, admin FROM hg3_user ORDER BY login');
-  while($data=mysql_fetch_array($req)){
+  $req=$sql->fetchAll('SELECT id, login, ban, admin FROM hg3_user ORDER BY login');
+  foreach ($req as $data) {
     if($data['ban']==1) $block='BAN';
     elseif($data['admin']==1) $block='ADMIN';
     else $block='USER';

@@ -17,8 +17,8 @@ if(!isset($id) || empty($id)){ // On liste les surcat
 
   $i=0;
   $j=0;
-  $req=$sql->query('SELECT id, id_cat, id_souscat, name, description, nb_img, nb_souscat FROM hg3_cat WHERE id_cat=0 ORDER BY name');
-  while($data=mysql_fetch_array($req)){
+  $req=$sql->fetchAll('SELECT id, id_cat, id_souscat, name, description, nb_img, nb_souscat FROM hg3_cat WHERE id_cat=0 ORDER BY name');
+  foreach ($req as $data) {
     $i++;
     $j++;
     if($i>=$config['cat_per_line']){
@@ -29,8 +29,7 @@ if(!isset($id) || empty($id)){ // On liste les surcat
     $req5='SELECT hg3_img.id, hg3_img.id_cat, hg3_img.file, hg3_cat.id, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat WHERE (hg3_img.id_cat='.$data['id'];
     if(!empty($data['id_souscat'])) foreach(explode('-', $data['id_souscat']) as $k=>$v) $req5.=' OR hg3_img.id_cat='.$v;
     $req5.=') ORDER BY rand() LIMIT 1';
-
-    $data5=$sql->query($req5, TRUE);
+    $data5=$sql->fetch($req5);
     
     $tn_link=(isset($data5['link']) && !empty($data5['link']) && is_file('./gallery/'.$data5['link'].'/TN/TN-'.$data5['file'])) ? './gallery/'.$data5['link'].'/TN/TN-'.$data5['file'] : './themes/'.$config['theme'].'/'.$config_theme['no_tn'];
     
@@ -54,7 +53,7 @@ if(!isset($id) || empty($id)){ // On liste les surcat
 else{ // On liste la catégorie demandé
   $tpl=new template('souscat.tpl');
   
-  $data2=$sql->query('SELECT id, nb_souscat, nb_img, link FROM hg3_cat WHERE id='.intval($id), TRUE);
+  $data2=$sql->fetch('SELECT id, nb_souscat, nb_img, link FROM hg3_cat WHERE id='.intval($id));
   
   $parent_cat_arr=parent_cat($data2['id'], $sql);
   foreach($parent_cat_arr as $k=>$v){
@@ -66,8 +65,8 @@ else{ // On liste la catégorie demandé
   // Catégorie
   if($data2['nb_souscat']>0){
     $i=0;
-    $req3=$sql->query('SELECT id, id_cat, id_souscat, name, description, nb_img, nb_souscat FROM hg3_cat WHERE id_cat='.$data2['id'].' ORDER BY name');
-    while($data3=mysql_fetch_array($req3)){
+    $req3=$sql->fetchAll('SELECT id, id_cat, id_souscat, name, description, nb_img, nb_souscat FROM hg3_cat WHERE id_cat='.$data2['id'].' ORDER BY name');
+    foreach ($req3 as $data3) {
       $i++;
       if($i>=$config['cat_per_line']){
         $tpl->parse('', 'CATOK.CAT.LINE');
@@ -78,7 +77,7 @@ else{ // On liste la catégorie demandé
       if(!empty($data3['id_souscat'])) foreach(explode('-', $data3['id_souscat']) as $k=>$v) $req6.=' OR hg3_img.id_cat='.$v;
       $req6.=') ORDER BY rand() LIMIT 1';
       
-      $data6=$sql->query($req6, TRUE);
+      $data6=$sql->fetch($req6);
       
       $tn_link=(isset($data6['link']) && !empty($data6['link']) && is_file('./gallery/'.$data6['link'].'/TN/TN-'.$data6['file'])) ? './gallery/'.$data6['link'].'/TN/TN-'.$data6['file'] : './themes/'.$config['theme'].'/'.$config_theme['no_tn'];
 
@@ -133,8 +132,8 @@ else{ // On liste la catégorie demandé
       else $tpl->parse(NULL, 'PAGE_NEXT_NOK');
     }
 
-    $req4=$sql->query('SELECT id, id_cat, file, name FROM hg3_img WHERE id_cat='.$data2['id'].' ORDER BY '.$config['sort_img'].' LIMIT '.$l0.', '.$l1);
-    while($data4=mysql_fetch_array($req4)){
+    $req4=$sql->fetchAll('SELECT id, id_cat, file, name FROM hg3_img WHERE id_cat='.$data2['id'].' ORDER BY '.$config['sort_img'].' LIMIT '.$l0.', '.$l1);
+    foreach ($req4 as $data4) {
       $i++;
       if($i>=$config['img_per_line']){
         $tpl->parse('', 'IMG.LINE');

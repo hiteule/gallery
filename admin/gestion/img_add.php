@@ -30,7 +30,7 @@ if(isset($cat)){
         exit(0);
       }
 
-      $data2=$sql->query('SELECT id, link FROM hg3_cat WHERE id='.intval($cat), TRUE);
+      $data2=$sql->fetch('SELECT id, link FROM hg3_cat WHERE id='.intval($cat));
 
       $file=(is_file('../gallery/'.$data2['link'].'/'.$_FILES['upfile'.$i]['name'])) ? time(NULL).$i.'_'.$_FILES['upfile'.$i]['name'] : $_FILES['upfile'.$i]['name'];
 
@@ -47,8 +47,8 @@ if(isset($cat)){
 
 $tpl=new template('img_add.tpl');
 
-$req=$sql->query('SELECT id, id_cat, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
-while($data=mysql_fetch_array($req)){
+$req=$sql->fetchAll('SELECT id, id_cat, name FROM hg3_cat WHERE id_cat=0 ORDER BY name');
+foreach ($req as $data) {
   $cat_arr[$my]['id']=$data['id'];
   $cat_arr[$my]['name']=$data['name'];
   $cat_arr[$my]['niv']=0;

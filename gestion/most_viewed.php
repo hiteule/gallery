@@ -14,8 +14,8 @@
 
 $tpl=new template('most_viewed.tpl');
 
-$req=$sql->query('SELECT id, id_cat, id_souscat, link, name FROM hg3_cat WHERE id_souscat=0 ORDER BY link');
-while($data=mysql_fetch_array($req)){
+$req=$sql->fetchAll('SELECT id, id_cat, id_souscat, link, name FROM hg3_cat WHERE id_souscat=0 ORDER BY link');
+foreach ($req as $data) {
   $id=NULL;
   $name=NULL;
   
@@ -33,8 +33,8 @@ while($data=mysql_fetch_array($req)){
 $i=0;
 $where=(isset($cat) && !empty($cat) && $cat!='all') ?  ' WHERE hg3_img.id_cat='.intval($cat) : '';
 
-$req=$sql->query('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.file, hg3_img.name, hg3_img.nb_view, hg3_cat.id AS id_cat, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat'.$where.' ORDER BY hg3_img.nb_view DESC LIMIT 0, '.intval($config['number_most_viewed']));
-while($data=mysql_fetch_array($req)){
+$req=$sql->fetchAll('SELECT hg3_img.id AS id_img, hg3_img.id_cat, hg3_img.file, hg3_img.name, hg3_img.nb_view, hg3_cat.id AS id_cat, hg3_cat.link FROM hg3_img LEFT JOIN hg3_cat ON hg3_cat.id=hg3_img.id_cat'.$where.' ORDER BY hg3_img.nb_view DESC LIMIT 0, '.intval($config['number_most_viewed']));
+foreach ($req as $data) {
   $i++;
   if($i>=$config['img_per_line']){
     $tpl->parse('', 'IMG.LINE');

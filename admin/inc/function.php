@@ -42,8 +42,8 @@ $my=0;
 function get_sous_cat($id_souscat, $niv=1){
   global $sql, $cat_arr, $my;
 
-  $req=$sql->query('SELECT id, id_cat, name, nb_souscat, nb_img FROM hg3_cat WHERE id_cat='.intval($id_souscat).' ORDER BY name');
-  while($data=mysql_fetch_array($req)){
+  $req=$sql->fetchAll('SELECT id, id_cat, name, nb_souscat, nb_img FROM hg3_cat WHERE id_cat='.intval($id_souscat).' ORDER BY name');
+  foreach ($req as $data) {
     $cat_arr[$my]['id']=$data['id'];
     $cat_arr[$my]['name']=$data['name'];
     $cat_arr[$my]['niv']=$niv;
@@ -60,8 +60,8 @@ function maj_cat($id_cat, $link_cat=''){
   $i=0;
   $j=0;
   $order_str='';
-  $req=$sql->query('SELECT id, date_add, name, nb_view FROM hg3_img WHERE id_cat='.intval($id_cat).' ORDER BY '.$config['sort_img']);
-  while($data=mysql_fetch_array($req)){
+  $req=$sql->fetchAll('SELECT id, date_add, name, nb_view FROM hg3_img WHERE id_cat='.intval($id_cat).' ORDER BY '.$config['sort_img']);
+  foreach ($req as $data) {
     if($i==0){
       $i++;
       $order_str.=$data['id'];
@@ -75,8 +75,8 @@ function maj_cat($id_cat, $link_cat=''){
     $id_souscat='';
     $nb_souscat=0;
     
-    $req2=$sql->query('SELECT id, link FROM hg3_cat WHERE link LIKE "'.$link_cat.'/%"');
-    while($data2=mysql_fetch_array($req2)){
+    $req2=$sql->fetchAll('SELECT id, link FROM hg3_cat WHERE link LIKE "'.$link_cat.'/%"');
+    foreach ($req2 as $data2) {
       if($nb_souscat>0) $id_souscat.='-';
       $id_souscat.=$data2['id'];
       $nb_souscat++;
