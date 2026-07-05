@@ -17,7 +17,7 @@ class mysql{
 
   private $pdo;
   
-  function mysql($host, $db, $user, $pass){ // Constructeur où on se connecte
+  function __construct($host, $db, $user, $pass){ // Constructeur où on se connecte
 
     try {
       $this->pdo = new PDO(sprintf('mysql:host=%s;dbname=%s', $host, $db), $user, $pass);
@@ -59,4 +59,3 @@ class mysql{
     return $this->pdo->getAttribute($attr);
   }
 }
-?>

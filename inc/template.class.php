@@ -2,16 +2,16 @@
 // Template class 4.0 par Stackouse
 // Contact: stackouse@hotmail.com
 // ---------------------------------------
-// Script commencé le: 17/05/2007
-// Dernière modifications: 25/12/2008
+// Script commencÃ© le: 17/05/2007
+// DerniÃ¨re modifications: 25/12/2008
 // ---------------------------------------
 // Ce programme est libre, vous pouvez le redistribuer et/ou le modifier selon
 // les termes de la Licence Creative Commons:
-// Paternité-Pas d'utilisation commerciale-Partage des Conditions Initiales à
+// PaternitÃ©-Pas d'utilisation commerciale-Partage des Conditions Initiales Ã 
 // l'Identique 2.0 France
 // http://creativecommons.org/licenses/by-nc-sa/2.0/fr/
 // ----------------------------------------
-// Liste des constantes à définir:
+// Liste des constantes Ã  dÃ©finir:
 // > Temmplates
 // TPL_EXT          => extension des fichiers templates, sans point
 // DIR_TEMPLATE     => repertoire par defaut des templates
@@ -24,66 +24,66 @@
 // > Style
 // STYLE            => Style en cours
 // -----------------------------------------
-// Aucun paramètrage en dehors de ces constantes n'est requis.
+// Aucun paramÃ©trage en dehors de ces constantes n'est requis.
 // Enjoy :)
 
 class template {
     var $file = ''; // Chemin du fichier template en cours d'utilisation
     var $filename = ''; // Fichier template en cours d'utilisation
-    var $style_sync = false; // Le fichier template est-il synchronisé par style ? (t/f)
+    var $style_sync = false; // Le fichier template est-il synchronisÃ© par style ? (t/f)
     var $content = ''; // Contenu de $file
     var $structure = array(); // Structure du fichier $file
     var $switches = array(); // Liste des switchs
     var $tampon = array(); // Tableau tampon pour le contenu des blocks enfants
     var $parsed = false; // Etat de parse de $file (t/f)
 
-    function template($file = '', $dir = DIR_TEMPLATE) {
+    function __construct($file = '', $dir = DIR_TEMPLATE) {
 
         if ($this->_is_valid($file, $dir)) {
-            // Si on synchronise les templates, alors on regarde si un fichier n'est pas spécifique au theme actuel
+            // Si on synchronise les templates, alors on regarde si un fichier n'est pas spÃ©cifique au theme actuel
             if (TPL_SYNCHRONISE == true and $this->_is_valid($file, $dir . '/' . STYLE)) {
                 $this->file = $dir . '/' . STYLE . '/' . $file;
                 $this->style_sync = true;
             }
-            // Si pas de template spécifique, on charge le fichier demandé
+            // Si pas de template spÃ©cifique, on charge le fichier demandÃ©
             if (empty($this->file)) $this->file = $dir . '/' . $file;
             // Fichier en cours
             $this->filename = $file;
         }
         // Sinon si le fichier n'est pas valide
         else {
-            print 'Impossible de charger "' . $dir . '/' . $file . '": fichier non trouvé';
+            print 'Impossible de charger "' . $dir . '/' . $file . '": fichier non trouvÃ©';
             return false;
         }
 
-        // On a donc maintenant un fichier valide, le découpage sera effectué au premier appel de $this->parse
+        // On a donc maintenant un fichier valide, le dÃ©coupage sera effectuÃ© au premier appel de $this->parse
         $this->_load_first_pass();
         $this->_load_second_pass();
 
         return true;
     }
 
-    # Retourne la validité du fichier $dir/$file:
-    # - retourne true si le fichier existe et à bien l'extention désirée
+    # Retourne la validitÃ© du fichier $dir/$file:
+    # - retourne true si le fichier existe et Ã  bien l'extention dÃ©sirÃ©e
     # - retourne false dans le cas contraire
     function _is_valid($file, $dir) {
         $i = strlen(TPL_EXT) + 1;
         return (is_file($dir . '/' . $file) and substr($file, -$i) == '.' . TPL_EXT) ? true : false;
     }
 
-    # Cette fonction précharge a proprement dit le fichier $file qui est
-    # nécessairement valide. Au programme: parsing des variables de langue,
+    # Cette fonction prÃ©charge a proprement dit le fichier $file qui est
+    # nÃ©cessairement valide. Au programme: parsing des variables de langue,
     # des constantes, puis decoupage en blocs
     function _load_first_pass($content = '', $blockname = 'CORE') {
         // Chargement du contenu du fichier
         if ($content == '') {
             $content = file_get_contents($this->file);
-            //Si le parsing des constantes est activé, alors on l'execute
+            //Si le parsing des constantes est activÃ©, alors on l'execute
             if (CONSTANT_PARSE == true) $content = preg_replace_callback("`{([-A-Z0-9_]+)}`", array($this, '_callback_const'), $content);
             $this->content = $content;
         }
 
-        // On va maintenant découper le fichier en blocks, sous blocks
+        // On va maintenant dÃ©couper le fichier en blocks, sous blocks
         preg_match_all('`<!-- ([-A-Z0-9_]+) -->(.+)<!-- /\\1 -->`isU', $content, $out, PREG_SET_ORDER);
 
         for ($i = 0; $i < count($out); $i++) {
@@ -95,20 +95,19 @@ class template {
                 // Si premier niveau
                 if ($blockname == 'CORE') {
                     $this->content = preg_replace("`<!-- " . $out[$i][1] . " -->.+<!-- /" . $out[$i][1] ." -->`isU", "<!-- " . $out[$i][1] . " -->", $this->content);
-                    //$this->structure['CORE'] = preg_replace("`<!-- ".$out[$i][1]." -->.+<!-- /".$out[$i][1]." -->`isU", "<!-- ".$out[$i][1]." -->", $this->structure['CORE']);
                 }
             } else {
-                print 'Impossible d\'utiliser "' . $this->file .'": un block "CORE" à été détecté !';
+                print 'Impossible d\'utiliser "' . $this->file .'": un block "CORE" Ã  Ã©tÃ© dÃ©tectÃ© !';
             }
         }
 
-        // La structure du fichier est déterminée :)
+        // La structure du fichier est dÃ©terminÃ©e :)
         unset($out);
     }
 
     # Deuxieme partie du chargement du fichier: on ajoute juste le block principal
-    # à la liste des blocks :) (_load_first_pass étant récursive, inutile de le faire
-    # x fois de suite pour le meme résultat)
+    # Ã  la liste des blocks :) (_load_first_pass Ã©tant rÃ©cursive, inutile de le faire
+    # x fois de suite pour le meme rÃ©sultat)
     function _load_second_pass() {
         $this->structure['CORE'] = $this->content;
     }
@@ -119,9 +118,9 @@ class template {
         if (defined($matches[1])) return constant($matches[1]);
     }
 
-    # Cette fonction se charge de parser les variables passées dans le tableau $parse
+    # Cette fonction se charge de parser les variables passÃ©es dans le tableau $parse
     # et contenues dans le block $block. Si $block est vide, alors les variables sont
-    # parsées dans le core
+    # parsÃ©es dans le core
     function parse($parse = '', $block = 'CORE') {
 
         // Premiere preoccupation, est ce que le block existe
@@ -129,7 +128,7 @@ class template {
 
         if (array_key_exists($block, $this->structure)) {
             // Si parse n'est pas un tableau, le script supporte la syntaxe:
-            // 'variable->valeur' et vas le reconnaître comme tableau
+            // 'variable->valeur' et vas le reconnaÃ®tre comme tableau
 
             if (!is_array($parse) and !empty($parse)) {
                 $temp = explode('->', $parse, 2);
@@ -141,8 +140,8 @@ class template {
             if (empty($parse)) $parse = array();
 
             // Bon bah avec tout ca, on ne peut que parser un tableau, non ?
-            // On met quand meme un contrôle, on sait jamais qu'une chaîne chinoise du FBI
-            // ait réussi à s'insinuer jusqu'ici :P
+            // On met quand meme un contrÃ´le, on sait jamais qu'une chaÃ®ne chinoise du FBI
+            // ait rÃ©ussi Ã  s'insinuer jusqu'ici :P
             if (is_array($parse)) {
                 // Si c'est bien un tableau, on le traite comme tel :)
                 foreach ($parse as $k => $v) {
@@ -157,7 +156,7 @@ class template {
                 // Premiere etape: on parse
                 $content = str_replace(array_keys($parse), array_values($parse), $this->structure[$block]);
 
-                // Deuxieme étape: on recupere le tampon
+                // Deuxieme Ã©tape: on recupere le tampon
                 // Listing des blocks dedans
                 // On regarde si on en a en tampon
                 preg_match_all("`<!-- ([-A-Z0-9_]+) -->`is", $this->structure[$block], $inner);
@@ -171,7 +170,7 @@ class template {
                     }
                 }
 
-                // Troisieme étape: on met en tampon si besoin
+                // Troisieme Ã©tape: on met en tampon si besoin
                 if ($level >= 1) {
                     if (array_key_exists($block, $this->tampon)) {
                         $this->tampon[$block] .= $content;
@@ -180,7 +179,6 @@ class template {
                     }
                 } elseif ($level < 1) {
                     $name = substr($block, 5);
-                    //$this->content = ($block != 'CORE') ? preg_replace('`<!-- ' . $name . ' -->`', $content .'<!-- ' . $name . ' -->', $this->content) : $content;
                     $this->structure['CORE'] = ($block != 'CORE') ? preg_replace('`<!-- ' . $name .' -->`', $content . '<!-- ' . $name . ' -->', $this->structure['CORE']) : $content;
                 }
             }
@@ -204,11 +202,11 @@ class template {
     function inject(&$extra) {
 
         if (EXTRA_PARSE and is_object($extra)) {
-            // On recupère les blocs extras
+            // On recupÃ¨re les blocs extras
             preg_match_all('`<!-- (extra\.[-A-Z0-9_]+) -->(.+)<!-- /\\1 -->`isU', $this->structure['CORE'], $out, PREG_SET_ORDER);
 
             if (!empty($out)) {
-                // Preparation des remplacements à effectuer
+                // Preparation des remplacements Ã  effectuer
                 $replace = array();
 
                 for ($i = 0; $i < count($out); $i++) {
@@ -252,7 +250,7 @@ class template {
         }
     }
 
-    # Cette fonction retourne le contenu du fichier parsé, après nettoyage
+    # Cette fonction retourne le contenu du fichier parsÃ©, aprÃ¨s nettoyage
     # Ou le contenu du block, si requis
     function out($block = 'CORE') {
         // Premiere preoccupation, est ce que le block est dans le core ?
@@ -268,7 +266,7 @@ class template {
         $content = preg_replace("`{[-A-Za-z0-9_]+}`", '', $content); // Variables/constantes
         $content = preg_replace("`{extra\.[-A-Za-z0-9_]+}`", '', $content); // Variables 'extras'
         $content = preg_replace('`<!-- [-A-Za-z0-9_]+ -->`', '', $content); // Blocks
-        $content = str_replace('noparse.', '', $content); // Blocks non parsés
+        $content = str_replace('noparse.', '', $content); // Blocks non parsÃ©s
 
         // Variables switch
         $content = preg_replace_callback("`{switch\.([-A-Za-z0-9_]+)=\"(.+,*)\"}`", array($this, '_callback_out'), $content);
@@ -291,5 +289,3 @@ class template {
         return $this->switches[$matches[1]][$this->switches[$matches[1]]['current']];
     }
 }
-
-?>

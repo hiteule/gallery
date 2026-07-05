@@ -121,4 +121,3 @@ $lang=array(
   'MAIL_OK'=>'Your email address has been changed.',
   'PASS_OK'=>'Your email password has been changed.',
 );
-?>

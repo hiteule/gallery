@@ -14,4 +14,3 @@
 
 $tpl=new template('404.tpl');
 echo $tpl->out();
-?>

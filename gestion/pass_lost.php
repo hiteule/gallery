@@ -54,4 +54,3 @@ if(isset($login, $mail, $code, $_SESSION['code']) && !empty($_SESSION['code'])){
 else $tpl->parse(NULL, 'FORM');
 
 echo $tpl->out();
-?>

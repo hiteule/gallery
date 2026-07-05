@@ -76,4 +76,3 @@ imagecopymerge($dest, $src, $x_dest, $y_dest, 0, 0, $width_src, $height_src, 70)
 if(in_array($dest_ext, $jpeg_arr)) imagejpeg($dest);
 elseif($dest_ext=='gif') imagegif($dest);
 else imagepng($dest);
-?>

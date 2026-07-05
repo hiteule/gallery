@@ -190,4 +190,3 @@ $lang=array(
   // Dashboard
   'APPARENCE_GAL'=>'Apparence de la galerie',
 );
-?>

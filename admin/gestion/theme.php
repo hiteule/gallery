@@ -38,4 +38,3 @@ if($hdl=opendir('../themes')){
 }
 
 echo $tpl->out();
-?>

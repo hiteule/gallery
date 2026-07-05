@@ -32,11 +32,11 @@ if(isset($cat)){
 
       $data2=$sql->fetch('SELECT id, link FROM hg3_cat WHERE id='.intval($cat));
 
-      $file=(is_file('../gallery/'.$data2['link'].'/'.$_FILES['upfile'.$i]['name'])) ? time(NULL).$i.'_'.$_FILES['upfile'.$i]['name'] : $_FILES['upfile'.$i]['name'];
+      $file=(is_file('../gallery/'.$data2['link'].'/'.$_FILES['upfile'.$i]['name'])) ? time().$i.'_'.$_FILES['upfile'.$i]['name'] : $_FILES['upfile'.$i]['name'];
 
       move_uploaded_file($_FILES['upfile'.$i]['tmp_name'], '../gallery/'.$data2['link'].'/'.$file);
       $name=(empty(${'name'.$i})) ? basename($_FILES['upfile'.$i]['name'], '.'.$extup) : ${'name'.$i};
-      $sql->query('INSERT INTO hg3_img (id, id_cat, date_add, file, name, nb_view) VALUES ("", '.intval($cat).', '.time(NULL).', "'.$file.'", "'.addslashes($name).'", 0)');
+      $sql->query('INSERT INTO hg3_img (id, id_cat, date_add, file, name, nb_view) VALUES ("", '.intval($cat).', '.time().', "'.$file.'", "'.addslashes($name).'", 0)');
     }
   }
   
@@ -66,4 +66,3 @@ foreach($cat_arr as $k=>$v){
 }
 
 echo $tpl->out();
-?>

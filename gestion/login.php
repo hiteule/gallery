@@ -24,4 +24,3 @@ if(!isset($uri) || empty($uri) || $uri=='?p=login' || $uri=='?p=subscribe') $uri
 $tpl->parse('uri->'.urldecode($uri));
 
 echo $tpl->out();
-?>

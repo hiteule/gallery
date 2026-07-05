@@ -18,3 +18,6 @@ docker/clean: docker/down docker/rm
 
 db/reset:
 	docker-compose run db /app/docker/mariadb/reset.sh "db" "root" "root"
+
+open:
+	open http://gallery.docker:8082/index.php

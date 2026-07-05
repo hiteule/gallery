@@ -76,4 +76,3 @@ if($page<$nb_page){
 else $tpl->parse(NULL, 'PAGE_NEXT_NOK');
 
 echo $tpl->out();
-?>

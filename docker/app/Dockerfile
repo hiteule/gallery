@@ -1,6 +1,6 @@
-FROM debian:jessie
-MAINTAINER Claude <claude@heaux-isp.com>
+FROM debian:latest
+LABEL org.opencontainers.image.authors="Claude claude@heaux-isp.com"
 
-RUN mkdir -p /app
+RUN mkdir /app
 
 VOLUME ["/app"]

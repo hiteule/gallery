@@ -28,7 +28,7 @@ if(isset($open, $language_new, $title, $description, $cat_per_line, $img_per_lin
         exit(0);
       }
 
-      $file='watermark_'.time(NULL).'_'.$_FILES['upfile']['name'];
+      $file='watermark_'.time().'_'.$_FILES['upfile']['name'];
 
       if(move_uploaded_file($_FILES['upfile']['tmp_name'], '../themes/'.$config['theme'].'/img/'.$file)==TRUE){
         $config_theme_tmp=parse_ini_file('../themes/'.$config['theme'].'/theme.ini');
@@ -114,4 +114,3 @@ $tpl->parse(array(
 ));
 
 echo $tpl->out();
-?>

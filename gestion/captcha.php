@@ -28,13 +28,12 @@ list($width, $height)=getimagesize('../static/img/captcha_background.png');
 
 $img=imagecreate($width, $height);
 imagecopy($img, $fond, 0, 0, 0, 0, $width, $height);
-imagedestroy($fond);
 
 $font_arr=array('kill_switch.ttf', 'kiss_me.ttf', 'mc_kloud_black.ttf', 'tamagotchi_normal.ttf', 'tape_loop.ttf', 'temhoss.ttf');
 
 $x=10;
 foreach($txt_arr as $v){
-  $font='../static/font/'.$font_arr[rand(0, 5)];
+  $font=realpath('../static/font/'.$font_arr[rand(0, 5)]);
   $color=imagecolorallocate($img, rand(0, 255), rand(0, 255), rand(0, 255));
   $angle=rand(-40, 40);
   
@@ -44,5 +43,3 @@ foreach($txt_arr as $v){
 
 header('Content-type: image/png');
 imagepng($img);
-imagedestroy($img);
-?>

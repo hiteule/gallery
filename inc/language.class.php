@@ -22,7 +22,7 @@ class language{
       var $language = '';
       var $dir = DIR_LANGUAGE;
       
-      function language($toload = '', $dir = DIR_LANGUAGE){
+      function __construct($toload = '', $dir = DIR_LANGUAGE){
             if(!empty($toload) and is_dir($dir.'/'.$toload)){
                   $this->language = $toload;
                   $this->dir = $dir.'/'.$toload.'/';
@@ -53,4 +53,3 @@ class language{
                   print 'Unable to load "'.$this->dir.$file.'": this file has not been found';
       }
 }
-?>

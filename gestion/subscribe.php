@@ -58,4 +58,3 @@ if($valid) $tpl->parse(NULL, 'VALID');
 else $tpl->parse(NULL, 'FORM');
 
 echo $tpl->out();
-?>

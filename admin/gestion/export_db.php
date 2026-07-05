@@ -64,4 +64,3 @@ else{
   header("Content-disposition: attachment; filename=".$sql->db."-".date('d_m_Y').".sql");
   echo $backup;
 }
-?>

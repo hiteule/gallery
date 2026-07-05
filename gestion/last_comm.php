@@ -17,9 +17,9 @@ $tpl=new template('last_comm.tpl');
 if(!isset($sort) || empty($sort)) $sort='date';
 if(!isset($order) || empty($order)) $order='DESC';
 if(!isset($since) || empty($since) || $since=='begin') $date='';
-elseif($since=='last30day') $date=' WHERE hg3_comment.date>'.(time(NULL)-2592000);
-elseif($since=='last7day') $date=' WHERE hg3_comment.date>'.(time(NULL)-604800);
-elseif($since=='today') $date=' WHERE hg3_comment.date>'.(time(NULL)-86400);
+elseif($since=='last30day') $date=' WHERE hg3_comment.date>'.(time()-2592000);
+elseif($since=='last7day') $date=' WHERE hg3_comment.date>'.(time()-604800);
+elseif($since=='today') $date=' WHERE hg3_comment.date>'.(time()-86400);
 
 if(!isset($page) || empty($page) || $page<1) $page=1;
 
@@ -70,4 +70,3 @@ if($nb_page>1){
 }
 
 echo $tpl->out();
-?>

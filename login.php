@@ -50,7 +50,7 @@ else{ // On se log
     exit(0);
   }
 
-  switch($user->login($login, $pass, $connec_auto)){
+  switch($user->login($login, $pass, isset($connec_auto) ? $connec_auto : false)){
     case 1: // Login OK
       header('Location: ./'.$uri);
     break;
@@ -69,4 +69,3 @@ else{ // On se log
   }
   exit(0);
 }
-?>

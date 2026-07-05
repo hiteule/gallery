@@ -39,7 +39,7 @@ if(isset($comment) && $config['comm_open']==1 && (($user->connect()==TRUE) || ($
     }
 
     $data4=$sql->fetch('SELECT id, id_img, comment FROM hg3_comment WHERE id_img='.$data['id_img'].' ORDER BY id DESC LIMIT 0, 1');
-    if(strcmp(stripslashes($data4['comment']), $comment)!=0) $sql->query('INSERT INTO hg3_comment VALUES("", '.$data['id_img'].', '.time(NULL).', "'.$name.'", "'.addslashes($comment).'")');
+    if(!$data4 || strcmp(stripslashes($data4['comment']), $comment)!=0) $sql->query('INSERT INTO hg3_comment (id_img, date, name, comment) VALUES('.$data['id_img'].', '.time().', "'.$name.'", "'.addslashes($comment).'")');
   }
   else{ // Champs NOK
     echo '<meta http-equiv="Refresh" content="0; URL=./?p=error&amp;id=1">';
@@ -133,4 +133,3 @@ if($config['comm_open']==1 && (($config['comm_invit']==0 && $user->connect()==TR
 }
 
 echo $tpl->out();
-?>

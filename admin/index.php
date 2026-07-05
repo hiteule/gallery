@@ -13,7 +13,7 @@
 */
 
 // Microtime de début d'éxécution
-$time_start=microtime(NULL);
+$time_start=microtime();
 
 // Initialisation des sessions
 session_start();
@@ -61,7 +61,7 @@ $user=new user('../conf/conf.php', '../inc/mysql.class.php', '../conf/conf.ini')
 if($user->connect()) $user->info(); // Récupération des infos de l'utilisateur courant
 
 // Test d'ouverture de la feuille de langue courante
-if(($langopen=@fopen('../locales/'.$config['lang'].'/admin.lang.php', r))!=TRUE) exit('FATAL ERROR : File language fail.');
+if(($langopen=@fopen('../locales/'.$config['lang'].'/admin.lang.php', 'r'))!=TRUE) exit('FATAL ERROR : File language fail.');
 fclose($langopen);
 
 // Définition de la langue courante à utiliser dans les templates
@@ -118,6 +118,5 @@ $tpl=new template('footer.tpl');
 $tpl->parse(array(
   'nbquery'=>$sql->nbr_queries,
   'lang_query'=>$lang_query,
-  'exec_time'=>exec_time($time_start, microtime(NULL))));
+  'exec_time'=>exec_time($time_start, microtime())));
 echo $tpl->out();
-?>

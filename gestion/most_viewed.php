@@ -55,4 +55,3 @@ if($i!=0 && $i<$config['img_per_line']){
 }
 
 echo $tpl->out();
-?>
