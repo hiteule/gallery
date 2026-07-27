@@ -119,7 +119,7 @@ if(isset($sync)){
     $name=basename($file, '.'.$ext);
     $link=substr($v, 0, -(strlen($file)+1));
 
-    $sql->query('INSERT INTO hg3_img (id, id_cat, date_add, file, name, nb_view) SELECT "", id, '.time(NULL).', "'.$file.'", "'.$name.'", 0 FROM hg3_cat WHERE link="'.$link.'"');
+    $sql->query('INSERT INTO hg3_img (id, id_cat, date_add, file, name, nb_view) SELECT "", id, '.time().', "'.$file.'", "'.$name.'", 0 FROM hg3_cat WHERE link="'.$link.'"');
     if(!in_array($link, $cat_maj_arr)) $cat_maj_arr[]=$link; // maj de la surcat
   }
 
@@ -139,4 +139,3 @@ if(isset($sync)){
 else $tpl->parse(NULL, 'FORM');
 
 echo $tpl->out();
-?>

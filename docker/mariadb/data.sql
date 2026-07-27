@@ -4,10 +4,10 @@ VALUES
 
 INSERT INTO `hg3_cat` (`id`, `id_cat`, `id_souscat`, `nb_img`, `nb_souscat`, `link`, `name`, `description`, `sort`)
 VALUES
-    (1, 0, '', 2, 0, 'one-level', 'One Level', 'My one level gallery description', '0'),
-    (2, 0, '3-4', 5, 2, 'two-level', 'Two Level', 'My two level gallery description', '1'),
-    (3, 2, '', 3, 0, 'two-level/two-level-one', 'Two Level one', 'My two level one gallery description', '0'),
-    (4, 2, '', 2, 0, 'two-level/two-level-two', 'Two Level two', 'My two level two gallery description', '1');
+    (1, 0, '', 2, 0, 'one-level', 'One Level', 'My one level gallery description', '1-2'),
+    (2, 0, '3-4', 5, 2, 'two-level', 'Two Level', 'My two level gallery description', '8-9-10-11'),
+    (3, 2, '', 3, 0, 'two-level/two-level-one', 'Two Level one', 'My two level one gallery description', '3-4-5'),
+    (4, 2, '', 2, 0, 'two-level/two-level-two', 'Two Level two', 'My two level two gallery description', '6-7');
 
 
 INSERT INTO `hg3_img` (`id`, `id_cat`, `date_add`, `file`, `name`, `nb_view`)

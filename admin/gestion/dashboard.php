@@ -28,4 +28,3 @@ $tpl->parse(array(
   'nb_user'=>$data3['id']));
   
 echo $tpl->out();
-?>

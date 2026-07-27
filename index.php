@@ -12,7 +12,7 @@
 * http://creativecommons.org/licenses/by-sa/3.0/deed.en
 */
 // Microtime de début d'éxécution
-$time_start=microtime(NULL);
+$time_start=microtime();
 
 // Initialisation des sessions
 session_start();
@@ -38,6 +38,7 @@ require_once('./inc/mysql.class.php');
 
 // Instanciation de la classe MySQL et connection à la bdd
 $sql=new mysql(DBHOST, DBNAME, DBUSER, DBPASSWORD);
+
 // On spécifie qu'on bosse en utf8
 $sql->query("SET NAMES 'utf8'");
 
@@ -69,12 +70,14 @@ $user=new user('./conf/conf.php', './inc/mysql.class.php', './conf/conf.ini'); /
 if($user->connect()) $user->info(); // Récupération des infos de l'utilisateur courant
 
 // Test d'ouverture de la feuille de langue courante
-if(($langopen=@fopen('./locales/'.$config['lang'].'/main.lang.php', r))!=TRUE) exit('FATAL ERROR : File language fail.');
+if(($langopen=@fopen('./locales/'.$config['lang'].'/main.lang.php', 'r'))!=TRUE) exit('FATAL ERROR : File language fail.');
 fclose($langopen);
 
 // Définition de la langue courante à utiliser dans les templates
 $tpl_lang=new language($config['lang'], './locales');
+
 $tpl_lang->load('main.lang.php');
+
 // Inclusion de la feuille de langue courante
 require('./locales/'.$config['lang'].'/main.lang.php');
 
@@ -130,6 +133,5 @@ $tpl=new template('footer.tpl');
 $tpl->parse(array(
   'nbquery'=>$sql->nbr_queries,
   'lang_query'=>$lang_query,
-  'exec_time'=>exec_time($time_start, microtime(NULL))));
+  'exec_time'=>exec_time($time_start, microtime())));
 echo $tpl->out();
-?>

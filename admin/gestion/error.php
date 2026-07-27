@@ -32,4 +32,3 @@ $tpl->parse(array(
   'id_error'=>intval($id),
   'error_txt'=>$error_txt));
 echo $tpl->out();
-?>

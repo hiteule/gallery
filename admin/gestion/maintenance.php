@@ -23,6 +23,3 @@ if(isset($optimize)){
 }
 
 echo $tpl->out();
-
-
-?>

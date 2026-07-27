@@ -66,4 +66,3 @@ elseif(isset($passwd_old, $passwd_new0, $passwd_new1)){
 else $tpl->parse('mail->'.stripslashes($user->info['mail']), 'FORM');
 
 echo $tpl->out();
-?>

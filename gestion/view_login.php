@@ -17,4 +17,3 @@ $tpl=new template('view_login.tpl');
 $tpl->parse('uri->'.urldecode($_SERVER['REQUEST_URI']));
 
 echo $tpl->out();
-?>

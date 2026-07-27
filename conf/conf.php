@@ -13,20 +13,19 @@
 */
 
 // Adresse de la base de données - Database hostname
-define('DBHOST', '');
+define('DBHOST', 'db');
 
 // Utilisateur de la base de données - Database user
-define('DBUSER', '');
+define('DBUSER', 'root');
 
 // Mot de passe de la base de données - Database password
-define('DBPASSWORD', '');
+define('DBPASSWORD', 'root');
 
 // Nom de la base de données - Database name
-define('DBNAME', '');
+define('DBNAME', 'gallery');
 
 // Version
 define('VERSION', '3.0.3');
 
 // View password
 define('VIEW_PASSWORD', '');
-?>

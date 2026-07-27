@@ -14,18 +14,15 @@
 
 // Formatage des GET, POST et COOKIE
 foreach($_GET as $k=>$v){
-  if(get_magic_quotes_gpc()) ${$k}=stripslashes($v);
-  else ${$k}=$v;
+  ${$k}=$v;
 }
 
 foreach($_POST as $k=>$v){
-  if(get_magic_quotes_gpc()) ${$k}=stripslashes($v);
-  else ${$k}=$v;
+  ${$k}=$v;
 }
 
 foreach($_COOKIE as $k=>$v){
-  if(get_magic_quotes_gpc()) ${$k}=stripslashes($v);
-  else ${$k}=$v;
+  ${$k}=$v;
 }
 
 // Calcul du temps d'éxécution
@@ -105,4 +102,3 @@ function have_to_view_login(){
 
   return true;
 }
-?>

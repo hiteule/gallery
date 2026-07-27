@@ -83,4 +83,3 @@ else{
 }
 
 echo $tpl->out();
-?>

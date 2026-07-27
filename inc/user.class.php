@@ -17,7 +17,7 @@ class user{
   var $config=array();
   var $sql=NULL;
   
-  function user($conf, $mysql, $confini){
+  function __construct($conf, $mysql, $confini){
     require_once($conf);
     require_once($mysql);
     // Parsage du fichier de config général
@@ -48,8 +48,8 @@ class user{
   }
   
   function logout(){
-    setcookie('hg3_userid', 0, (time(NULL)-1));
-    setcookie('hg3_hash', 0, (time(NULL)-1));
+    setcookie('hg3_userid', 0, (time()-1));
+    setcookie('hg3_hash', 0, (time()-1));
     session_destroy();
     $this->info=NULL;
     
@@ -88,4 +88,3 @@ class user{
     else return FALSE;
   }
 }
-?>

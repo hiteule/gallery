@@ -35,4 +35,3 @@ $tpl->parse(array(
   ));
 
 echo $tpl->out();
-?>

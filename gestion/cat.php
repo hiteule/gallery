@@ -155,4 +155,3 @@ else{ // On liste la catégorie demandé
   
   echo $tpl->out();
 }
-?>

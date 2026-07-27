@@ -14,18 +14,15 @@
 
 // Formatage des GET, POST et COOKIE
 foreach($_GET as $k=>$v){
-  if(get_magic_quotes_gpc()) ${$k}=stripslashes($v);
-  else ${$k}=$v;
+  ${$k}=$v;
 }
 
 foreach($_POST as $k=>$v){
-  if(get_magic_quotes_gpc()) ${$k}=stripslashes($v);
-  else ${$k}=$v;
+  ${$k}=$v;
 }
 
 foreach($_COOKIE as $k=>$v){
-  if(get_magic_quotes_gpc()) ${$k}=stripslashes($v);
-  else ${$k}=$v;
+  ${$k}=$v;
 }
 
 // Calcul du temps d'éxécution
@@ -142,7 +139,7 @@ function delete_dir($link){
     closedir($fp);
     if(rmdir($link)==TRUE) return TRUE;
     else{
-      $trash_arr=explode(' ', microtime(NULL));
+      $trash_arr=explode(' ', microtime());
       rename($link, '../trash/'.$trash_arr[1].'_'.substr($trash_arr[0], 2));
       return TRUE;
     }
@@ -166,4 +163,3 @@ function maj_conf($config_arr, $file='../conf/conf.ini'){
   if(file_put_contents($file, $content)===FALSE) return FALSE;
   else return TRUE;
 }
-?>

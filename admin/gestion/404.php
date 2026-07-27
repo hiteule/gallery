@@ -16,4 +16,3 @@ if(!isset($user) || $user->connect()==FALSE || $user->info['admin']!=1) exit(0);
 
 $tpl=new template('404.tpl');
 echo $tpl->out();
-?>
